@@ -2,6 +2,7 @@ frontend-nanodegree-arcade-game
 ===============================
 
 -Playing the Game-
+
 1. Running Game:
 		Open the index.html file in your browser of choice.
 
