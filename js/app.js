@@ -1,4 +1,3 @@
-
 //The superclass that the sub classes will inherit from
 var Character = function(loc){
     this.loc = loc;
