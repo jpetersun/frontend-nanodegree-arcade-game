@@ -1,25 +1,21 @@
 //The superclass that the sub classes will inherit from
-var Character = function(loc){
-    this.loc = loc;
-};
-Character.prototype.move = function(){
-    this.loc++;
-};
+var Character = function() {};
+
 //Draw the characters on the screen method
 Character.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 //Subclass that creates the enemy with x, y, and speed values.
-//The r value represents its width and the b value
-//represents its height. These values are used to
-//determine a collision if conditions are met.
-var Enemy = function(locX, locY, speed){
-    Character.call(this, locX, locY);
+var Enemy = function(x, y, speed) {
+    Character.call(this, x, y, speed);
     this.sprite = 'images/enemy-bug.png';
-    this.x = locX;
-    this.y = locY;
+    this.x = x;
+    this.y = y;
     this.speed = speed;
+    //The r value represents its width and the b value
+    //represents its height. These values are used to
+    //determine a collision if conditions are met.
     this.r = 101 / 3;
     this.b = 171 / 3;
 };
@@ -49,16 +45,20 @@ Enemy.prototype.update = function(dt) {
 
 //Subclass that creates and starts the player's position
 //on the second rowof grass on the middle of the canvas.
-//The r valuerepresents its width and the b value represents
-//its height. These values are used to determine
-//a collision if conditions are met.
-var Player = function(loc){
-    Character.call(this, loc);
+var Player = function() {
+    Character.call(this);
     this.sprite = 'images/char-boy.png';
     this.x = 200;
     this.y = 320;
+    //The r value represents its width and the b value represents
+    //its height. These values are used to determine
+    //a collision if conditions are met.
     this.r = 101 / 3;
     this.b = 171 / 3;
+    //Reference for player movements in each direction
+    //based on tile size.
+    this.movX = 83;
+    this.movY = 101;
 };
 
 Player.prototype = Object.create(Character.prototype);
@@ -76,28 +76,24 @@ Player.prototype.update = function(dt) {
 //amount in each direction. Boundries for the keys are set
 //so that the player cannot move outside of the canvas.
 Player.prototype.handleInput = function(key) {
-//Local variables for tile width and height to reference
-//to for player movements in each direction.
-var tileHeight = 83;
-var tileWidth = 83;
     if (key === 'left') {
-        this.x -= tileWidth;
+        this.x -= this.movX;
         if (this.x < 0)
             this.x = 0;
     }
     if (key === 'right') {
-        this.x += tileWidth;
+        this.x += this.movX;
         if (this.x > 400) {
             this.x = 400;
         }
     }
     if (key === 'up') {
-        this.y -= tileHeight;
+        this.y -= this.movY;
         if (this.y < 0)
             this.y = 0;
     }
     if (key === 'down') {
-        this.y += tileHeight;
+        this.y += this.movY;
         if (this.y > 400) {
             this.y = 400;
         }
@@ -112,14 +108,14 @@ var tileWidth = 83;
 //console logs 'You died!'.
 Player.prototype.checkCollisions = function() {
     for (var i = 0; i < allEnemies.length; i++)
-        if (player.x < allEnemies[i].x + allEnemies[i].r &&
-            player.x + player.r > allEnemies[i].x &&
-            player.y < allEnemies[i].y + allEnemies[i].b &&
-            player.b + player.y > allEnemies[i].y) {
-        player.x = 200;
-        player.y = 320;
-        console.log("You died!");
-    }
+        if (this.x < allEnemies[i].x + allEnemies[i].r &&
+            this.x + this.r > allEnemies[i].x &&
+            this.y < allEnemies[i].y + allEnemies[i].b &&
+            this.b + this.y > allEnemies[i].y) {
+            this.x = 200;
+            this.y = 320;
+            console.log("You died!");
+        }
 };
 
 //If the player's y position is equal to 0, on
@@ -128,10 +124,10 @@ Player.prototype.checkCollisions = function() {
 //back to the intial position at the start of
 //the game.
 Player.prototype.victory = function() {
-    if (player.y === 0) {
+    if (this.y === 0) {
         console.log("You won!");
-        player.x = 200;
-        player.y = 320;
+        this.x = 200;
+        this.y = 320;
     }
 };
 
@@ -139,7 +135,6 @@ Player.prototype.victory = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var player = new Player();
-player.move();
 
 //Instantiated an array with new enemies each given a
 //starting x, and y position, as well as a speed value.
