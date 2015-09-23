@@ -1,11 +1,17 @@
+
+//The superclass that the sub classes will inherit from
 var Character = function(loc){
     this.loc = loc;
 };
 Character.prototype.move = function(){
     this.loc++;
 };
+//Draw the characters on the screen method
+Character.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
-// Creates the enemy with x, y, and speed values.
+//Subclass that creates the enemy with x, y, and speed values.
 //The r value represents its width and the b value
 //represents its height. These values are used to
 //determine a collision if conditions are met.
@@ -42,14 +48,9 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-//Starts the player's position on the second row
-//of grass on the middle of the canvas. The r value
-//represents its width and the b value represents
+//Subclass that creates and starts the player's position
+//on the second rowof grass on the middle of the canvas.
+//The r valuerepresents its width and the b value represents
 //its height. These values are used to determine
 //a collision if conditions are met.
 var Player = function(loc){
@@ -60,8 +61,9 @@ var Player = function(loc){
     this.r = 101 / 3;
     this.b = 171 / 3;
 };
-    Player.prototype = Object.create(Character.prototype);
-    Player.prototype.constructor = Player;
+
+Player.prototype = Object.create(Character.prototype);
+Player.prototype.constructor = Player;
 
 //Updates the players current position
 //when moving across the screen.
@@ -70,37 +72,67 @@ Player.prototype.update = function(dt) {
     this.y * dt;
 };
 
-//Draws the player on the screen.
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
 //An event listener is set to detect keyup positions of
 //the arrows keys. They move the player with a set pixel
 //amount in each direction. Boundries for the keys are set
 //so that the player cannot move outside of the canvas.
 Player.prototype.handleInput = function(key) {
+//Local variables for tile width and height to reference
+//to for player movements in each direction.
+var tileHeight = 83;
+var tileWidth = 83;
     if (key === 'left') {
-        this.x -= 82;
+        this.x -= tileWidth;
         if (this.x < 0)
             this.x = 0;
     }
     if (key === 'right') {
-        this.x += 82;
+        this.x += tileWidth;
         if (this.x > 400) {
             this.x = 400;
         }
     }
     if (key === 'up') {
-        this.y -= 82;
+        this.y -= tileHeight;
         if (this.y < 0)
             this.y = 0;
     }
     if (key === 'down') {
-        this.y += 82;
+        this.y += tileHeight;
         if (this.y > 400) {
             this.y = 400;
         }
+    }
+};
+
+//Checks for collisions between player
+//and all enemies using the Axis-Aligned Bounding
+//Box algorithm found on Mozilla Developer Network.
+//If a collision occurs then the player's position
+//is set back to the initial position of the game, and
+//console logs 'You died!'.
+Player.prototype.checkCollisions = function() {
+    for (var i = 0; i < allEnemies.length; i++)
+        if (player.x < allEnemies[i].x + allEnemies[i].r &&
+            player.x + player.r > allEnemies[i].x &&
+            player.y < allEnemies[i].y + allEnemies[i].b &&
+            player.b + player.y > allEnemies[i].y) {
+        player.x = 200;
+        player.y = 320;
+        console.log("You died!");
+    }
+};
+
+//If the player's y position is equal to 0, on
+//the row of water, then a console log message
+//says 'You won!'. Then it sets the player's position
+//back to the intial position at the start of
+//the game.
+Player.prototype.victory = function() {
+    if (player.y === 0) {
+        console.log("You won!");
+        player.x = 200;
+        player.y = 320;
     }
 };
 
@@ -117,37 +149,6 @@ var allEnemies = [
     new Enemy(-50, 145, 225),
     new Enemy(-200, 225, 175)
 ];
-
-//Checks for collisions between player
-//and all enemies using the Axis-Aligned Bounding
-//Box algorithm found on Mozilla Developer Network.
-//If a collision occurs then the player's position
-//is set back to the initial position of the game, and
-//console logs 'You died!'.
-function checkCollisions() {
-    for (var i = 0; i < allEnemies.length; i++)
-        if (player.x < allEnemies[i].x + allEnemies[i].r &&
-            player.x + player.r > allEnemies[i].x &&
-            player.y < allEnemies[i].y + allEnemies[i].b &&
-            player.b + player.y > allEnemies[i].y) {
-        player.x = 200;
-        player.y = 320;
-        console.log("You died!");
-    }
-}
-
-//If the player's y position is equal to 0, on
-//the row of water, then a console log message
-//says 'You won!'. Then it sets the player's position
-//back to the intial position at the start of
-//the game.
-function victory() {
-    if (player.y === 0) {
-        console.log("You won!");
-        player.x = 200;
-        player.y = 320;
-    }
-}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

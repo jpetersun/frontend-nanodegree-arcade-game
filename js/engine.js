@@ -83,8 +83,8 @@ var Engine = (function(global) {
     //to know when the player wins the game.
     function update(dt) {
         updateEntities(dt);
-        checkCollisions();
-        victory();
+        player.checkCollisions();
+        player.victory();
     }
 
     /* This is called by the update function  and loops through all of the
