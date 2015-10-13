@@ -78,9 +78,13 @@ var Engine = (function(global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
+
+    //Added a check for collisions function as well as a victory function
+    //to know when the player wins the game.
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        player.checkCollisions();
+        player.victory();
     }
 
     /* This is called by the update function  and loops through all of the
