@@ -1,6 +1,6 @@
 ##Classic Arcade Game
 
-A game developed inside an HTMl5 canvas utilizing the best practices of Object-oriented JavaScript. 
+A game developed inside an HTML5 canvas utilizing the best practices of Object-oriented JavaScript. 
 
 1. Running the Game
 	* Open the index.html file in your browser of choice.
