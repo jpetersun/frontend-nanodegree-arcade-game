@@ -16,4 +16,4 @@ A game developed inside an HTML5 canvas utilizing the best practices of Object-o
 
 4. Victory
 	* Beat the game by reaching the water without colliding with bugs.
-	* Resets player back to starting position
+	* Victory results in player returning to starting position
