@@ -1,5 +1,4 @@
 ##Classic Arcade Game
-===============================
 
 A game developed inside an HTMl5 canvas utilizing the best practices of Object-oriented JavaScript. 
 
