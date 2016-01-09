@@ -78,8 +78,9 @@ Player.prototype.update = function(dt) {
 Player.prototype.handleInput = function(key) {
     if (key === 'left') {
         this.x -= this.movX;
-        if (this.x < 0)
+        if (this.x < 0) {
             this.x = 0;
+        }
     }
     if (key === 'right') {
         this.x += this.movX;
@@ -89,13 +90,15 @@ Player.prototype.handleInput = function(key) {
     }
     if (key === 'up') {
         this.y -= this.movY;
-        if (this.y < 0)
+        if (this.y < 0) {
             this.y = 0;
+        }
+
     }
     if (key === 'down') {
         this.y += this.movY;
-        if (this.y > 400) {
-            this.y = 400;
+        if (this.y > 600) {
+            this.y = 600;
         }
     }
 };
