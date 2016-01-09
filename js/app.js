@@ -107,7 +107,8 @@ Player.prototype.handleInput = function(key) {
 //is set back to the initial position of the game, and
 //console logs 'You died!'.
 Player.prototype.checkCollisions = function() {
-    for (var i = 0; i < allEnemies.length; i++)
+
+    for (var i = 0, len = allEnemies.length; i < len; i++)
         if (this.x < allEnemies[i].x + allEnemies[i].r &&
             this.x + this.r > allEnemies[i].x &&
             this.y < allEnemies[i].y + allEnemies[i].b &&
