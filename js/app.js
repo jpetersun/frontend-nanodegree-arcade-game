@@ -145,7 +145,9 @@ var player = new Player();
 var allEnemies = [
     new Enemy(-100, 60, 200),
     new Enemy(-50, 145, 225),
-    new Enemy(-200, 225, 175)
+    new Enemy(-200, 225, 175),
+    new Enemy(-100, 310, 350),
+    new Enemy(-250, 395, 300)
 ];
 
 // This listens for key presses and sends the keys to your
