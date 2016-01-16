@@ -49,7 +49,7 @@ var Player = function() {
     Character.call(this);
     this.sprite = 'images/char-boy.png';
     this.x = 200;
-    this.y = 320;
+    this.y = 480;
     //The r value represents its width and the b value represents
     //its height. These values are used to determine
     //a collision if conditions are met.
@@ -117,7 +117,7 @@ Player.prototype.checkCollisions = function() {
             this.y < allEnemies[i].y + allEnemies[i].b &&
             this.b + this.y > allEnemies[i].y) {
             this.x = 200;
-            this.y = 320;
+            this.y = 480;
             console.log("You died!");
         }
 };
@@ -131,7 +131,7 @@ Player.prototype.victory = function() {
     if (this.y === 0) {
         console.log("You won!");
         this.x = 200;
-        this.y = 320;
+        this.y = 480;
     }
 };
 
